@@ -11,18 +11,18 @@
 	},
 	hidden = 'hidden',
 	borderBox = 'border-box',
-	lineHeight = 'lineHeight',
+	lineHeight = 'line-height',
 	copy = '<textarea tabindex="-1" style="position:absolute; top:-9999px; left:-9999px; right:auto; bottom:auto; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box; word-wrap:break-word; height:0 !important; min-height:0 !important; overflow:hidden;"/>',
 	// line-height is omitted because IE7/IE8 doesn't return the correct value.
 	copyStyle = [
-		'fontFamily',
-		'fontSize',
-		'fontWeight',
-		'fontStyle',
-		'letterSpacing',
-		'textTransform',
-		'wordSpacing',
-		'textIndent'
+		'font-family',
+		'font-size',
+		'font-weight',
+		'font-style',
+		'letter-spacing',
+		'text-transform',
+		'word-spacing',
+		'text-indent'
 	],
 	oninput = 'oninput',
 	onpropertychange = 'onpropertychange',
@@ -136,7 +136,11 @@
 				// This gives a cross-browser supported way getting the actual
 				// height of the text, through the scrollTop property.
 				while (i--) {
-					mirror.style[copyStyle[i]] = $ta.css(copyStyle[i]);
+                    var camelCasedStyle = copyStyle[i].replace(/^-ms-/, "ms-").replace(/-([\da-z])/gi, function(all, letter){
+                        return (letter + "").toUpperCase();
+                    });
+                    
+					mirror.style[camelCasedStyle] = $ta.css(copyStyle[i]);
 				}
 
 				$('body').append(mirror);
